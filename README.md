@@ -1,70 +1,70 @@
-# ARM Tamagotchi — Embedded Virtual Pet su LPC1768
+# ARM Tamagotchi — Embedded Virtual Pet on LPC1768
 
-Progetto individuale realizzato per il corso di **Architetture dei Sistemi di Elaborazione** (Politecnico di Torino). Implementa un "Tamagotchi" virtuale — un animaletto digitale interattivo — su un microcontrollore ARM Cortex-M3, sviluppato e testato su **scheda fisica LANDTIGER** (LPC1768), non solo in emulazione.
+Individual project developed for the **Computer Architecture** course (Politecnico di Torino). Implements a virtual "Tamagotchi" — an interactive digital pet — on an ARM Cortex-M3 microcontroller, developed and tested on a **physical LANDTIGER board** (LPC1768), not just in emulation.
 
-Il progetto corrisponde alla consegna "Extra Point #2", versione finale ed estesa di una prima implementazione base: aggiunge interazione tramite touchscreen, effetti sonori e controllo del volume.
+This corresponds to the "Extra Point #2" assignment, the final and extended version of an earlier base implementation: it adds touchscreen interaction, sound effects, and volume control.
 
-## Cosa fa
+## Features
 
-- Un personaggio virtuale ("Mooncake") si muove sullo schermo GLCD e reagisce alle azioni dell'utente
-- **Movimento** controllabile via joystick
-- **Alimentazione**: menu Meal/Snack che modifica i livelli di sazietà (satiety) e felicità (happiness) del personaggio
-- **Coccole via touchscreen**: toccando il personaggio sul touch panel si attiva un'animazione dedicata che aumenta la felicità
-- **Effetti sonori** su ogni animazione principale (click dei menu, pasto, coccole, morte/fuga del personaggio)
-- **Controllo del volume** tramite potenziometro, letto via ADC campionando ogni 50 ms
-- Invecchiamento del personaggio nel tempo, gestito tramite timer hardware
+- A virtual character ("Mooncake") moves on the GLCD screen and reacts to user input
+- **Movement** controlled via joystick
+- **Feeding**: Meal/Snack menu that affects the character's satiety and happiness levels
+- **Touchscreen cuddles**: touching the character on the touch panel triggers a dedicated animation that increases happiness
+- **Sound effects** on every major animation (menu clicks, eating, cuddles, character death/run away)
+- **Volume control** via a potentiometer, sampled through the ADC every 50 ms
+- The character ages over time, driven by hardware timers
 
-## Architettura e concetti implementati
+## Architecture and concepts implemented
 
-Il progetto è stato l'occasione per applicare concreamente concetti di architettura dei sistemi embedded:
+This project was an opportunity to apply core embedded systems concepts in practice:
 
-- **Gestione degli interrupt**: interrupt handler dedicati per timer, RIT (Repetitive Interrupt Timer), pulsanti (EXINT) e ADC
-- **Timer multipli** per orchestrare in parallelo: animazione base, invecchiamento del personaggio ogni secondo, ed eventi periodici a granularità più fine (50 ms)
-- **Comunicazione con periferiche esterne**: display GLCD via bus parallelo, touch panel resistivo, joystick analogico, ADC per il potenziometro del volume
-- **Programmazione low-level su registri di periferica** (accesso diretto ai registri del microcontrollore LPC17xx, senza librerie di alto livello)
-- **Vincoli di sincronizzazione**: ad esempio, il RIT (che rileva il tocco sul touchscreen) viene disabilitato durante altre animazioni per evitare sovrapposizioni, e riabilitato al termine
+- **Interrupt handling**: dedicated interrupt handlers for timers, the RIT (Repetitive Interrupt Timer), external buttons (EXINT), and the ADC
+- **Multiple concurrent timers** orchestrating: the base animation, character aging every second, and finer-grained periodic events (50 ms)
+- **Communication with external peripherals**: GLCD display over a parallel bus, resistive touch panel, analog joystick, ADC for the volume potentiometer
+- **Low-level, register-based peripheral programming** (direct access to LPC17xx microcontroller registers, without high-level libraries)
+- **Synchronization constraints**: for example, the RIT (which detects touchscreen presses) is disabled during other animations to avoid overlaps, and re-enabled once they complete
 
-Il documento [`docs/Application Note.pdf`](docs/Application%20Note.pdf) descrive in dettaglio, in stile tecnico, l'implementazione dell'animazione delle coccole (gestione degli interrupt RIT/Timer0 coinvolti).
+The [`docs/Application Note.pdf`](docs/Application%20Note.pdf) document describes, in technical writing style, the implementation of the cuddle animation (the RIT/Timer0 interrupt handling involved).
 
-## Struttura del repository
+## Repository structure
 
 ```
 ├── src/
-│   ├── sample.c              # Entry point, inizializzazione periferiche e timer
-│   ├── functions.c/.h        # Logica del gioco: menu, animazioni, stati del personaggio
-│   ├── core_cm3.c            # Core ARM Cortex-M3 (CMSIS)
-│   ├── system_LPC17xx.c      # Inizializzazione di sistema (clock, PLL)
-│   ├── startup_LPC17xx.s     # Startup assembly del microcontrollore
-│   ├── adc/                  # Lettura ADC (potenziometro volume)
-│   ├── button_EXINT/         # Gestione interrupt esterni sui pulsanti
-│   ├── joystick/              # Input joystick e movimento del personaggio
-│   ├── led/                   # Gestione LED
-│   ├── RIT/                    # Repetitive Interrupt Timer (rilevamento tocco)
-│   ├── timer/                  # Timer hardware (animazioni, invecchiamento)
-│   ├── TouchPanel/             # Driver del touch panel resistivo
-│   └── GLCD/                   # Driver del display grafico e libreria font
+│   ├── sample.c              # Entry point, peripheral and timer initialization
+│   ├── functions.c/.h        # Game logic: menus, animations, character state
+│   ├── core_cm3.c            # ARM Cortex-M3 core (CMSIS)
+│   ├── system_LPC17xx.c      # System initialization (clock, PLL)
+│   ├── startup_LPC17xx.s     # Microcontroller startup assembly
+│   ├── adc/                  # ADC reading (volume potentiometer)
+│   ├── button_EXINT/         # External interrupt handling for buttons
+│   ├── joystick/              # Joystick input and character movement
+│   ├── led/                   # LED handling
+│   ├── RIT/                    # Repetitive Interrupt Timer (touch detection)
+│   ├── timer/                  # Hardware timers (animations, aging)
+│   ├── TouchPanel/             # Resistive touch panel driver
+│   └── GLCD/                   # Graphic display driver and font library
 ├── keil_project/
-│   ├── sample.uvprojx         # Progetto Keil µVision
-│   └── sample.sct              # Scatter file (memory layout del linker)
+│   ├── sample.uvprojx         # Keil µVision project
+│   └── sample.sct              # Scatter file (linker memory layout)
 └── docs/
-    ├── ExtraPoint2.pdf         # Specifica della consegna
-    ├── Application Note.pdf    # Approfondimento tecnico sull'animazione coccole
-    └── hardware_setup.jpg       # Foto del setup hardware
+    ├── ExtraPoint2.pdf         # Assignment specification
+    ├── Application Note.pdf    # Technical note on the cuddle animation
+    └── hardware_setup.jpg       # Photo of the hardware setup
 ```
 
-## Come compilarlo/eseguirlo
+## Building and running
 
-Richiede [Keil µVision (MDK-ARM)](https://www.keil.com/) con supporto per Cortex-M3.
+Requires [Keil µVision (MDK-ARM)](https://www.keil.com/) with Cortex-M3 support.
 
-1. Aprire `keil_project/sample.uvprojx` in Keil µVision
-2. Collegare la scheda LANDTIGER (LPC1768) via debugger J-Link, oppure configurare il simulatore integrato
-3. Compilare (Build) e caricare (Flash/Download) sulla scheda
-4. All'accensione, il personaggio appare sul display GLCD ed è pronto per l'interazione
+1. Open `keil_project/sample.uvprojx` in Keil µVision
+2. Connect a LANDTIGER board (LPC1768) via a J-Link debugger, or configure the built-in simulator
+3. Build and flash (Download) to the board
+4. On power-up, the character appears on the GLCD display and is ready for interaction
 
-## Stack tecnico
+## Tech stack
 
-`C` · `ARM Cortex-M3 (LPC1768)` · `Keil µVision / MDK-ARM` · `CMSIS` · Programmazione bare-metal su registri di periferica
+`C` · `ARM Cortex-M3 (LPC1768)` · `Keil µVision / MDK-ARM` · `CMSIS` · Bare-metal, register-level programming
 
-## Note
+## Notes
 
-Questo progetto è stato sviluppato nell'ambito di un corso universitario e ha finalità didattiche. Il template di base del progetto Keil (struttura cartelle, driver GLCD/TouchPanel di libreria) è stato fornito nel materiale del corso; la logica del Tamagotchi, la gestione delle animazioni, l'integrazione touchscreen/audio/volume e la relativa documentazione tecnica sono lavoro originale.
+This project was developed as part of a university course, for educational purposes. The base Keil project template (folder structure, GLCD/TouchPanel library drivers) was provided as course material; the Tamagotchi game logic, animation handling, touchscreen/audio/volume integration, and the related technical documentation are original work.
