@@ -1,0 +1,30 @@
+# File di build/output generati da Keil uVision
+*.o
+*.d
+*.crf
+*.axf
+*.lnp
+*.map
+*.htm
+*.lst
+*.dep
+*.bak
+*.Bak
+*.tra
+*.plg
+*.iex
+*.scvd
+
+# File di stato IDE legati al singolo utente/computer
+*.uvguix.*
+*.uvopt
+*.uvoptx
+*.uvproj.saved_uv4
+
+# File di log del debugger J-Link
+JLink*.txt
+JLink*.ini
+
+# Cartelle generate da Keil
+DebugConfig/
+RTE/
