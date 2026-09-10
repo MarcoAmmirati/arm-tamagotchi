@@ -1,0 +1,74 @@
+<svg viewBox="0 0 980 620" xmlns="http://www.w3.org/2000/svg" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1F4E5F"/>
+    </marker>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#8a8a8a"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="980" height="620" fill="#ffffff"/>
+
+  <text x="490" y="38" text-anchor="middle" font-size="22" font-weight="700" fill="#1F4E5F">ARM Tamagotchi — System Architecture</text>
+  <text x="490" y="60" text-anchor="middle" font-size="13" fill="#777777">LPC1768 (ARM Cortex-M3) on the LANDTIGER board</text>
+
+  <!-- MCU central box -->
+  <rect x="365" y="255" width="250" height="110" rx="10" fill="#1F4E5F"/>
+  <text x="490" y="300" text-anchor="middle" font-size="16" font-weight="700" fill="#ffffff">LPC1768</text>
+  <text x="490" y="320" text-anchor="middle" font-size="12" fill="#dce7ea">ARM Cortex-M3</text>
+  <text x="490" y="337" text-anchor="middle" font-size="11" fill="#dce7ea">Timers · RIT · Interrupt Controller</text>
+  <text x="490" y="352" text-anchor="middle" font-size="11" fill="#dce7ea">Game state (functions.c)</text>
+
+  <!-- Peripheral boxes -->
+  <!-- GLCD (top-left) -->
+  <rect x="60" y="80" width="200" height="80" rx="8" fill="#E8EEF1" stroke="#1F4E5F" stroke-width="1.5"/>
+  <text x="160" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#1F4E5F">GLCD Display</text>
+  <text x="160" y="132" text-anchor="middle" font-size="11" fill="#444444">Character, menus,</text>
+  <text x="160" y="146" text-anchor="middle" font-size="11" fill="#444444">status bars rendering</text>
+
+  <!-- TouchPanel (top-right) -->
+  <rect x="720" y="80" width="200" height="80" rx="8" fill="#E8EEF1" stroke="#1F4E5F" stroke-width="1.5"/>
+  <text x="820" y="112" text-anchor="middle" font-size="14" font-weight="700" fill="#1F4E5F">Touch Panel</text>
+  <text x="820" y="132" text-anchor="middle" font-size="11" fill="#444444">Cuddle interaction</text>
+  <text x="820" y="146" text-anchor="middle" font-size="11" fill="#444444">detected via RIT</text>
+
+  <!-- Joystick (left) -->
+  <rect x="30" y="290" width="200" height="80" rx="8" fill="#E8EEF1" stroke="#1F4E5F" stroke-width="1.5"/>
+  <text x="130" y="322" text-anchor="middle" font-size="14" font-weight="700" fill="#1F4E5F">Joystick</text>
+  <text x="130" y="342" text-anchor="middle" font-size="11" fill="#444444">Menu navigation</text>
+  <text x="130" y="356" text-anchor="middle" font-size="11" fill="#444444">character movement</text>
+
+  <!-- Buttons EXINT (right) -->
+  <rect x="750" y="290" width="200" height="80" rx="8" fill="#E8EEF1" stroke="#1F4E5F" stroke-width="1.5"/>
+  <text x="850" y="322" text-anchor="middle" font-size="14" font-weight="700" fill="#1F4E5F">Buttons (EXINT)</text>
+  <text x="850" y="342" text-anchor="middle" font-size="11" fill="#444444">External interrupt</text>
+  <text x="850" y="356" text-anchor="middle" font-size="11" fill="#444444">driven selection</text>
+
+  <!-- ADC / Potentiometer (bottom-left) -->
+  <rect x="60" y="470" width="200" height="90" rx="8" fill="#E8EEF1" stroke="#1F4E5F" stroke-width="1.5"/>
+  <text x="160" y="500" text-anchor="middle" font-size="14" font-weight="700" fill="#1F4E5F">ADC + Potentiometer</text>
+  <text x="160" y="520" text-anchor="middle" font-size="11" fill="#444444">Volume level sampled</text>
+  <text x="160" y="534" text-anchor="middle" font-size="11" fill="#444444">every 50 ms</text>
+
+  <!-- Speaker (bottom-right) -->
+  <rect x="720" y="470" width="200" height="90" rx="8" fill="#E8EEF1" stroke="#1F4E5F" stroke-width="1.5"/>
+  <text x="820" y="500" text-anchor="middle" font-size="14" font-weight="700" fill="#1F4E5F">Speaker</text>
+  <text x="820" y="520" text-anchor="middle" font-size="11" fill="#444444">Sound effects on</text>
+  <text x="820" y="534" text-anchor="middle" font-size="11" fill="#444444">clicks &amp; animations</text>
+
+  <!-- Timers/RIT note under MCU -->
+  <text x="490" y="410" text-anchor="middle" font-size="11" fill="#999999">Timer0 · Timer1 · Timer3 · RIT — drive animations, aging and touch sampling</text>
+
+  <!-- Connections (anchored to box edges, clear of text) -->
+  <line x1="220" y1="160" x2="410" y2="256" stroke="#1F4E5F" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="760" y1="160" x2="570" y2="256" stroke="#1F4E5F" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="230" y1="300" x2="366" y2="295" stroke="#1F4E5F" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="750" y1="300" x2="614" y2="295" stroke="#1F4E5F" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="160" y1="470" x2="392" y2="364" stroke="#1F4E5F" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="820" y1="470" x2="588" y2="364" stroke="#1F4E5F" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Legend -->
+  <rect x="365" y="580" width="14" height="14" fill="#1F4E5F"/>
+  <text x="385" y="592" font-size="11" fill="#555555">Interrupt / data flow to and from the MCU</text>
+</svg>
