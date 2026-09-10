@@ -1,20 +1,11 @@
 # ARM Tamagotchi — Embedded Virtual Pet on LPC1768
 
-Individual project developed for the **Computer Architecture** course (Politecnico di Torino). Implements a virtual "Tamagotchi" — an interactive digital pet — on an ARM Cortex-M3 microcontroller, developed and tested on a **physical LANDTIGER board** (LPC1768), not just in emulation.
-
-This corresponds to the "Extra Point #2" assignment, the final and extended version of an earlier base implementation: it adds touchscreen interaction, sound effects, and volume control.
-
-![Tamagotchi UI screenshot](docs/screenshot_ui.png)
-
-## Architecture overview
-
-![System architecture diagram](docs/architecture.svg)
+Individual project developed for the **Computer Architecture** course (Politecnico di Torino). Implements a virtual "Tamagotchi" — an interactive digital pet — on an ARM Cortex-M3 microcontroller, developed and tested on a **physical LANDTIGER board** (LPC1768).
 
 ## Features
 
-- A virtual character ("Mooncake") moves on the GLCD screen and reacts to user input
-- **Movement** controlled via joystick
-- **Feeding**: Meal/Snack menu that affects the character's satiety and happiness levels
+- A virtual pet ("Mooncake") moves on the GLCD screen and reacts to user input
+- **Feeding**: Meal/Snack menu that affects the character's satiety and happiness levels, selected by joystick
 - **Touchscreen cuddles**: touching the character on the touch panel triggers a dedicated animation that increases happiness
 - **Sound effects** on every major animation (menu clicks, eating, cuddles, character death/run away)
 - **Volume control** via a potentiometer, sampled through the ADC every 50 ms
@@ -30,7 +21,7 @@ This project was an opportunity to apply core embedded systems concepts in pract
 - **Low-level, register-based peripheral programming** (direct access to LPC17xx microcontroller registers, without high-level libraries)
 - **Synchronization constraints**: for example, the RIT (which detects touchscreen presses) is disabled during other animations to avoid overlaps, and re-enabled once they complete
 
-The [`docs/Application Note.pdf`](docs/Application%20Note.pdf) document describes, in technical writing style, the implementation of the cuddle animation (the RIT/Timer0 interrupt handling involved).
+The [`docs/Application Note.pdf`](docs/Application%20Note.pdf) document describes the implementation details of the cuddle animation (the RIT/Timer0 interrupt handling involved).
 
 ## Repository structure
 
