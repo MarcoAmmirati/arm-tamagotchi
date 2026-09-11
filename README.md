@@ -2,14 +2,17 @@
 
 Individual project developed for the **Computer Architecture** course (Politecnico di Torino). Implements a virtual "Tamagotchi" — an interactive digital pet — on an ARM Cortex-M3 microcontroller, developed and tested on a **physical LANDTIGER board** (LPC1768).
 
+![Tamagotchi running on the LANDTIGER board](docs/screenshot_ui.jpg)
+
 ## Features
 
-- A virtual pet ("Mooncake") moves on the GLCD screen and reacts to user input
+- A virtual pet ("Mooncake") lives on the GLCD screen and reacts to user input
 - **Feeding**: Meal/Snack menu that affects the character's satiety and happiness levels, selected by joystick
 - **Touchscreen cuddles**: touching the character on the touch panel triggers a dedicated animation that increases happiness
 - **Sound effects** on every major animation (menu clicks, eating, cuddles, character death/run away)
 - **Volume control** via a potentiometer, sampled through the ADC every 50 ms
 - The character ages over time, driven by hardware timers
+- The pet itself stays still on screen; movement only happens as part of its animations (eating, cuddling, running away)
 
 ## Architecture and concepts implemented
 
@@ -34,7 +37,7 @@ The [`docs/Application Note.pdf`](docs/Application%20Note.pdf) document describe
 │   ├── startup_LPC17xx.s     # Microcontroller startup assembly
 │   ├── adc/                  # ADC reading (volume potentiometer)
 │   ├── button_EXINT/         # External interrupt handling for buttons
-│   ├── joystick/              # Joystick input and character movement
+│   ├── joystick/              # Joystick input (menu selection)
 │   ├── led/                   # LED handling
 │   ├── RIT/                    # Repetitive Interrupt Timer (touch detection)
 │   ├── timer/                  # Hardware timers (animations, aging)
@@ -46,9 +49,8 @@ The [`docs/Application Note.pdf`](docs/Application%20Note.pdf) document describe
 └── docs/
     ├── ExtraPoint2.pdf         # Assignment specification
     ├── Application Note.pdf    # Technical note on the cuddle animation
-    ├── hardware_setup.jpg       # Photo of the hardware setup
-    ├── screenshot_ui.png        # Screenshot of the Tamagotchi UI in action
-    └── architecture.svg         # System architecture diagram
+    ├── screenshot_ui.jpg        # Photo of the pet running on the board
+    └── mooncake_neglect.gif     # Demo of the "neglect" ending animation
 ```
 
 ## Building and running
@@ -66,7 +68,9 @@ Requires [Keil µVision (MDK-ARM)](https://www.keil.com/) with Cortex-M3 support
 
 ## Fun fact
 
-The pet's name, "Mooncake", is a nod to the character from the animated series *Final Space*: an adorable-looking creature that is secretly capable of immense destruction. The neglect message you get in-code when you fail to take care of your Tamagotchi is a playful reference to that contrast.
+The pet's name, "Mooncake", is a nod to the character from the animated series *Final Space*: an adorable-looking creature that is secretly capable of immense destruction. If you neglect Mooncake for too long, it fades away with a message that plays on that same reference:
+
+![Mooncake neglect ending animation](docs/mooncake_neglect.gif)
 
 ## Notes
 
